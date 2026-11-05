@@ -1,0 +1,232 @@
+/* ==========================================================================
+   GODAVARI MILAN - DESIGN TOKENS
+   Theme: Sacred Temple-town Dawn on the Godavari (Rajamahendravaram)
+   Elevated Hindu Religious & Cultural Aesthetics.
+   WCAG AA compliant everywhere; AAA for Simple Elder Mode.
+   ========================================================================== */
+
+:root {
+  /* --- Primary Sacred Earth & Temple Palette (Dawn / Udaya Mode) --- */
+  --color-kesari: #C8691A;         /* Primary Sacred Saffron (భగవా రంగు) */
+  --color-kesari-hover: #AF5A14;   /* Saffron Pressed / Hover */
+  --color-kesari-light: #F9EFE6;   /* Saffron Soft Wash */
+
+  --color-haldi: #D9A21B;          /* Turmeric Gold (పసుపు / हल्दी): Highlights */
+  --color-haldi-light: #FDF7E7;    /* Haldi Gentle Wash */
+  --color-gold: #E5A93C;           /* Temple Brass Gold */
+
+  --color-kumkum: #A3261E;         /* Kumkum Vermilion (కుంకుమ / कुमकुम): Urgent alerts */
+  --color-kumkum-light: #FCEBEA;   /* Kumkum Tint */
+
+  --color-neel: #1F2A5C;           /* Sacred Indigo (నీలి మేఘం / नील): Headers, Dark surfaces */
+  --color-neel-deep: #121938;      /* Deepest Temple Indigo */
+  --color-neel-surface: #283670;   /* Indigo Surface */
+
+  --color-godavari: #186B73;       /* Sacred Godavari River Teal (గోదావరి జలాలు) */
+  --color-godavari-light: #E4F2F3; /* Godavari Water Wash */
+  --color-godavari-tint: #CDE6E8;  /* Soft Water Border */
+
+  --color-tulsi: #3F6B3A;          /* Sacred Tulsi Green (తులసి దళం / तुलसी) */
+  --color-tulsi-light: #EBF2EA;    /* Tulsi Soft Tint */
+
+  --color-chandan: #FBF4E8;        /* Sandalwood Chandan (శ్రీ గంధం / चन्दन) Background */
+  --color-chandan-card: #FFFFFF;   /* Crisp Raised Card */
+  --color-chandan-border: #E8DCC9; /* Soft Temple Earth Border */
+
+  --color-mitti: #7A4B2A;          /* Earthen Mitti (మట్టి / मिट्टी): Secondary Accents */
+  --color-mitti-light: #F4EAE2;    /* Mitti Soft Wash */
+
+  --color-ink: #181829;            /* High Contrast Primary Text */
+  --color-ink-muted: #4B4B63;      /* Secondary Readable Text */
+  --color-ink-subtle: #74748C;     /* Placeholders */
+
+  /* --- Surface Tokens --- */
+  --bg-page: #FBF4E8;              /* Temple-town dawn sandalwood wash */
+  --bg-card: #FFFFFF;              /* Crisp card */
+  --bg-card-elevated: #FFFDF8;     /* Warm sacred card */
+  --bg-header: #1F2A5C;            /* Sacred Indigo Night Header */
+  --border-subtle: #E8DCC9;
+  --border-strong: #C4B094;
+
+  /* --- Raksha Sutra (Holy Red-Yellow Thread) Accents --- */
+  --sutra-red: #A3261E;
+  --sutra-yellow: #D9A21B;
+  --sutra-gradient: repeating-linear-gradient(
+    45deg,
+    #A3261E,
+    #A3261E 12px,
+    #D9A21B 12px,
+    #D9A21B 24px
+  );
+
+  /* --- Typography Scales & Indic Accommodations --- */
+  --font-serif: "Tiro Telugu", "Tiro Devanagari Hindi", "Cinzel", Georgia, serif;
+  --font-sans: "Noto Sans Telugu", "Noto Sans Devanagari", "Mukta", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  
+  --text-scale: 1;
+  --font-size-xs: calc(0.78rem * var(--text-scale));
+  --font-size-sm: calc(0.875rem * var(--text-scale));
+  --font-size-base: calc(1rem * var(--text-scale));
+  --font-size-lg: calc(1.15rem * var(--text-scale));
+  --font-size-xl: calc(1.35rem * var(--text-scale));
+  --font-size-2xl: calc(1.75rem * var(--text-scale));
+  --font-size-3xl: calc(2.25rem * var(--text-scale));
+
+  /* Indic line-heights generous to prevent matra clipping */
+  --line-height-normal: 1.68;
+  --line-height-heading: 1.38;
+
+  /* --- Touch Targets & Spacing --- */
+  --min-touch-target: 48px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+
+  /* --- Focus Ring (Raksha Sutra Dual-Tone Ring) --- */
+  --focus-ring: 0 0 0 3px rgba(200, 105, 26, 0.45), 0 0 0 6px rgba(217, 162, 27, 0.35);
+}
+
+/* ==========================================================================
+   Dark Mode: Deep Indigo Night (#10142B)
+   Warm dawn softens to sacred temple night on the riverbank with golden lamps.
+   ========================================================================== */
+.dark {
+  --color-kesari: #E58230;
+  --color-kesari-hover: #F29342;
+  --color-kesari-light: #3D2210;
+
+  --color-haldi: #E8B93F;
+  --color-haldi-light: #3A2F0D;
+  --color-gold: #F0C45D;
+
+  --color-kumkum: #DE4C43;
+  --color-kumkum-light: #4A1613;
+
+  --color-neel: #2F3D82;
+  --color-neel-deep: #0B0F21;
+  --color-neel-surface: #1E2754;
+
+  --color-godavari: #2AA3AF;
+  --color-godavari-light: #12373C;
+  --color-godavari-tint: #18484E;
+
+  --color-tulsi: #599453;
+  --color-tulsi-light: #173015;
+
+  --color-chandan: #181C38;
+  --color-chandan-card: #141730;
+  --color-chandan-border: #2C335C;
+
+  --color-mitti: #A86F47;
+  --color-mitti-light: #382417;
+
+  --color-ink: #F2ECE1;
+  --color-ink-muted: #B8B5CB;
+  --color-ink-subtle: #8986A6;
+
+  --bg-page: #0D1024;              /* Deep Holy Indigo Night */
+  --bg-card: #151936;              /* Night Card */
+  --bg-card-elevated: #1B2044;     /* Elevated Night Card */
+  --bg-header: #080B1C;            /* Darkest Temple Header */
+  --border-subtle: #2C335C;
+  --border-strong: #424D85;
+}
+
+/* ==========================================================================
+   Simple Mode (Elder 60+ Persona / పెద్దల సులభ దర్శన మోడ్)
+   Massive type (>=22px base), ultra-high contrast AAA, unambiguous large buttons.
+   ========================================================================== */
+body.simple-mode {
+  --text-scale: 1.35;
+  --font-size-base: 1.35rem;       /* 22px minimum base */
+  --line-height-normal: 1.85;
+  --min-touch-target: 60px;
+  --border-subtle: #A39074;
+  --border-strong: #594833;
+}
+
+body.simple-mode button, 
+body.simple-mode input, 
+body.simple-mode select {
+  font-size: 1.15rem !important;
+  font-weight: 700 !important;
+}
+
+/* ==========================================================================
+   Text Size Controls
+   ========================================================================== */
+body.text-size-sm { --text-scale: 0.9; }
+body.text-size-base { --text-scale: 1.0; }
+body.text-size-lg { --text-scale: 1.2; }
+body.text-size-xl { --text-scale: 1.4; }
+
+/* ==========================================================================
+   Cultural Motif Utilities
+   ========================================================================== */
+.sutra-thread-top {
+  border-top: 4px solid transparent;
+  border-image: var(--sutra-gradient) 4;
+}
+
+.sutra-thread-bottom {
+  border-bottom: 4px solid transparent;
+  border-image: var(--sutra-gradient) 4;
+}
+
+.sutra-thread-left {
+  border-left: 5px solid transparent;
+  border-image: var(--sutra-gradient) 5;
+}
+
+.sutra-divider {
+  height: 4px;
+  background-image: var(--sutra-gradient);
+  border: none;
+  width: 100%;
+}
+
+/* Sacred Kalamkari decorative card frame */
+.kalamkari-frame {
+  position: relative;
+  background: var(--bg-card);
+  border: 2px solid var(--color-haldi);
+  box-shadow: 0 4px 18px rgba(31, 42, 92, 0.08);
+}
+
+.kalamkari-frame::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border: 1px dashed var(--color-kesari);
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0.45;
+}
+
+/* Kolam dot and line subtle border */
+.kolam-border {
+  background-image: radial-gradient(var(--color-haldi) 1.5px, transparent 1.5px);
+  background-size: 14px 14px;
+}
+
+/* Water wave subtle animation for river motif */
+@keyframes godavariRipples {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(-25px); }
+  100% { transform: translateX(0); }
+}
+
+.animate-waves {
+  animation: godavariRipples 8s ease-in-out infinite;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

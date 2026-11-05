@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="te" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/diya-favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <meta name="theme-color" content="#1F2A5C" />
+    <meta name="description" content="Godavari Milan (గోదావరి మిలన్ / गोदावरी मिलन) - The sacred lost person identification, family safety, and reunification portal for Godavari Pushkaralu 2027 in Rajamahendravaram. RTIH Innovation Challenge Track PS-03." />
+    <title>Godavari Milan | గోదావరి మిలన్ | गोदावरी मिलन - Pushkaralu 2027 Sacred Safety Portal</title>
+
+    <!-- Google Fonts for authentic Telugu, Devanagari, and Serif Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Tiro+Devanagari+Hindi:ital@0;1&family=Tiro+Telugu:ital@0;1&display=swap" rel="stylesheet">
+
+    <style>
+      /* Pure inline styles for zero-JS instant sacred first paint loader */
+      #initial-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient(circle at center, #FFFDF8 0%, #FBF4E8 50%, #F2E4CD 85%, #E6D2B2 100%);
+        color: #1F2A5C;
+        font-family: 'Noto Sans Telugu', 'Noto Sans Devanagari', system-ui, sans-serif;
+        text-align: center;
+        padding: 24px;
+        transition: opacity 0.85s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.85s ease;
+      }
+      
+      .loader-shloka-header {
+        font-family: 'Tiro Telugu', 'Tiro Devanagari Hindi', serif;
+        font-size: 0.95rem;
+        color: #7A4B2A;
+        letter-spacing: 0.05em;
+        margin-bottom: 16px;
+        line-height: 1.6;
+        max-width: 580px;
+        animation: shlokaGlow 3.5s ease-in-out infinite alternate;
+      }
+
+      .loader-central-art {
+        position: relative;
+        width: 190px;
+        height: 155px;
+        margin-bottom: 16px;
+      }
+
+      /* Animated Godavari waves below Diya */
+      .loader-waves {
+        position: absolute;
+        bottom: 5px;
+        left: -15px;
+        width: 220px;
+        height: 38px;
+      }
+
+      .wave-path {
+        animation: loaderWaveFlow 3.5s ease-in-out infinite alternate;
+      }
+
+      /* Temple Bell Gentle Sway */
+      .temple-bell {
+        transform-origin: 95px 8px;
+        animation: bellSway 2.4s ease-in-out infinite alternate;
+      }
+
+      /* Multi-Tier Diya Flame Gentle Sacred Flicker */
+      .flame-core {
+        transform-origin: center bottom;
+        animation: flameFlicker 1.8s ease-in-out infinite alternate;
+      }
+
+      .flame-aura {
+        transform-origin: center center;
+        animation: auraPulse 2.4s ease-in-out infinite alternate;
+      }
+
+      /* Holy Raksha Sutra thread progress bar */
+      .sutra-thread-progress {
+        width: 280px;
+        height: 8px;
+        border-radius: 999px;
+        background: #E8DCC9;
+        overflow: hidden;
+        position: relative;
+        margin: 16px 0 10px 0;
+        box-shadow: 0 1px 4px rgba(122, 75, 42, 0.25);
+        border: 1px solid rgba(217, 162, 27, 0.4);
+      }
+
+      .sutra-thread-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 0%;
+        background: repeating-linear-gradient(
+          45deg,
+          #A3261E,
+          #A3261E 12px,
+          #D9A21B 12px,
+          #D9A21B 24px
+        );
+        transition: width 0.1s linear;
+      }
+
+      .loader-text {
+        font-size: 1.12rem;
+        font-weight: 600;
+        color: #1F2A5C;
+        max-width: 460px;
+        min-height: 3.2rem;
+        line-height: 1.5;
+        font-family: 'Noto Sans Telugu', 'Noto Sans Devanagari', sans-serif;
+      }
+
+      .loader-subtext {
+        font-size: 0.82rem;
+        color: #7A4B2A;
+        letter-spacing: 0.08em;
+        font-weight: 700;
+        margin-top: 6px;
+      }
+
+      .loader-om {
+        font-size: 1.9rem;
+        color: #C8691A;
+        margin-bottom: 4px;
+        font-family: serif;
+        filter: drop-shadow(0 0 4px rgba(217, 162, 27, 0.4));
+      }
+
+      .loader-enter-btn {
+        margin-top: 14px;
+        padding: 8px 20px;
+        border-radius: 9999px;
+        background: linear-gradient(135deg, #C8691A 0%, #D9A21B 100%);
+        color: #FFFFFF;
+        font-size: 0.82rem;
+        font-weight: 700;
+        border: 1px solid #FDF7E7;
+        box-shadow: 0 2px 8px rgba(200, 105, 26, 0.35);
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .loader-enter-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 14px rgba(200, 105, 26, 0.5);
+      }
+
+      @keyframes flameFlicker {
+        0% { transform: scale(0.96, 0.95) rotate(-1deg); filter: drop-shadow(0 0 8px rgba(217, 162, 27, 0.7)); }
+        50% { transform: scale(1.07, 1.08) rotate(2deg); filter: drop-shadow(0 0 16px rgba(200, 105, 26, 0.9)); }
+        100% { transform: scale(0.98, 1.03) rotate(-2deg); filter: drop-shadow(0 0 10px rgba(217, 162, 27, 0.8)); }
+      }
+
+      @keyframes auraPulse {
+        0% { transform: scale(0.92); opacity: 0.45; }
+        100% { transform: scale(1.12); opacity: 0.85; }
+      }
+
+      @keyframes bellSway {
+        0% { transform: rotate(-5deg); }
+        100% { transform: rotate(5deg); }
+      }
+
+      @keyframes loaderWaveFlow {
+        0% { transform: translateX(-12px); }
+        100% { transform: translateX(12px); }
+      }
+
+      @keyframes shlokaGlow {
+        0% { opacity: 0.85; }
+        100% { opacity: 1; text-shadow: 0 0 10px rgba(217, 162, 27, 0.5); }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .flame-core, .flame-aura, .temple-bell, .wave-path {
+          animation: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Pre-JS Sacred Temple Dawn Inline Loader (Ceremonial & Devotional Pacing) -->
+    <div id="initial-loader" aria-live="polite" role="status">
+      <div class="loader-om">ॐ • శ్రీ గోదావర్యై నమః • ॐ</div>
+
+      <div class="loader-shloka-header">
+        గంగే చ యమునే చైవ గోదావరి సరస్వతీ | నర్మదే సింధు కావేరీ జలేస్మిన్ సన్నిధిం కురు ||<br />
+        <span style="font-size: 0.82rem; color: #A3261E;">गङ्गे च यमुने चैव गोदावरि सरस्वति | नर्मदे सिन्धु कावेरी जलेऽस्मिन् सन्निधिं कुरु ||</span><br />
+        <span style="font-size: 0.75rem; color: #186B73; font-sans font-medium;">"O Holy Godavari, Ganga & Sacred Waters — Bless our pilgrims with safety and peace."</span>
+      </div>
+
+      <div class="loader-central-art">
+        <svg viewBox="0 0 190 155" width="190" height="155" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Background Temple Gopuram Spire Silhouette -->
+          <path d="M 82 110 L 86 50 L 90 50 L 92 30 L 98 30 L 100 50 L 104 50 L 108 110 Z" fill="#D9A21B" opacity="0.18"/>
+          <circle cx="95" cy="24" r="3.5" fill="#D9A21B" opacity="0.4"/>
+          <line x1="95" y1="20" x2="95" y2="15" stroke="#D9A21B" stroke-width="1.5" opacity="0.4"/>
+
+          <!-- Sacred River Godavari Ripples -->
+          <g class="wave-path">
+            <path d="M 0 128 Q 28 120 56 128 T 112 128 T 168 128 T 224 128" stroke="#186B73" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+            <path d="M 0 140 Q 32 132 64 140 T 128 140 T 192 140" stroke="#186B73" stroke-width="3.5" stroke-linecap="round" opacity="0.9"/>
+          </g>
+
+          <!-- Floating Sacred Brass & Earthen Pancha Diya Base -->
+          <ellipse cx="95" cy="112" rx="65" ry="17" fill="#7A4B2A" stroke="#C8691A" stroke-width="2.5"/>
+          <ellipse cx="95" cy="110" rx="56" ry="12" fill="#D9A21B" opacity="0.7"/>
+          <ellipse cx="95" cy="108" rx="46" ry="8" fill="#F4E9D4" opacity="0.5"/>
+
+          <!-- Golden Flame Aura -->
+          <circle cx="95" cy="72" r="42" fill="url(#goldAura)" class="flame-aura"/>
+
+          <!-- Sacred Golden Flame -->
+          <g class="flame-core">
+            <!-- Outer Vermilion Kesari Petal -->
+            <path d="M 95 28 C 110 50, 120 66, 107 80 C 100 86, 90 86, 83 80 C 70 66, 80 50, 95 28 Z" fill="#C8691A"/>
+            <!-- Inner Turmeric Gold Core -->
+            <path d="M 95 38 C 104 54, 111 64, 103 75 C 99 79, 91 79, 87 75 C 79 64, 86 54, 95 38 Z" fill="#D9A21B"/>
+            <!-- Pure White Divine Spark -->
+            <ellipse cx="95" cy="68" rx="4" ry="8" fill="#FFFDF8"/>
+          </g>
+
+          <!-- Subtle Temple Bell at Top -->
+          <g class="temple-bell">
+            <path d="M 95 0 L 95 10" stroke="#7A4B2A" stroke-width="2"/>
+            <path d="M 89 10 C 89 17, 101 17, 101 10 Z" fill="#D9A21B" stroke="#C8691A" stroke-width="0.8"/>
+            <circle cx="95" cy="17" r="1.5" fill="#7A4B2A"/>
+          </g>
+
+          <defs>
+            <radialGradient id="goldAura" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#D9A21B" stop-opacity="0.5"/>
+              <stop offset="60%" stop-color="#C8691A" stop-opacity="0.2"/>
+              <stop offset="100%" stop-color="#C8691A" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+        </svg>
+      </div>
+
+      <!-- Rotating Trilingual Spiritual & Safety Message -->
+      <div id="loader-message" class="loader-text">
+        మీ కుటుంబ రక్షణను, పుణ్య క్షేత్ర రక్షా సూత్రాన్ని సిద్ధం చేస్తున్నాము...
+      </div>
+
+      <!-- Red and Yellow Holy Thread (Raksha Sutra) Progress Bar -->
+      <div class="sutra-thread-progress" aria-hidden="true">
+        <div id="loader-progress-bar" class="sutra-thread-bar"></div>
+      </div>
+
+      <!-- Dynamic Progress Percentage Indicator in all 3 languages -->
+      <div id="loader-pct-text" style="font-size: 0.78rem; font-weight: 700; color: #C8691A; letter-spacing: 0.05em;">
+        పుష్కర క్షేత్ర ప్రవేశం: 15% • प्रवेश: 15% • Entering: 15%
+      </div>
+
+      <div class="loader-subtext">
+        గోదావరి పుష్కరాలు 2027 • రాజమహేంద్రవరం • GODAVARI MILAN
+      </div>
+
+      <!-- Early Skip Button for Emergencies & Fast Darshan -->
+      <button id="loader-skip-btn" class="loader-enter-btn" onclick="window.dismissMilanLoader()">
+        దర్శనం ప్రారంభించండి • दर्शन करें • Enter Portal Now
+      </button>
+    </div>
+
+    <!-- Script to smoothly advance progress & cycle trilingual reassurance -->
+    <script>
+      (function() {
+        var messages = [
+          "మీ కుటుంబ రక్షణను, పుణ్య క్షేత్ర రక్షా సూత్రాన్ని సిద్ధం చేస్తున్నాము...",
+          "आपकी सुरक्षा और परिवार का पवित्र सुरक्षा सूत्र तैयार हो रहा है...",
+          "Preparing your sacred family safety net for Pushkaralu 2027...",
+          "రాజమహేంద్రవరం పవిత్ర ఘాట్ల రక్షా నెట్‌వర్క్ అనుసంధానమవుతోంది...",
+          "राजमहेंद्रवरम पावन घाटों का सुरक्षा नेटवर्क सक्रिय हो रहा है..."
+        ];
+        var index = 0;
+        var el = document.getElementById('loader-message');
+        var bar = document.getElementById('loader-progress-bar');
+        var pctEl = document.getElementById('loader-pct-text');
+        var pct = 15;
+
+        // Smooth percentage timer over ~4.2 seconds
+        var progressInterval = setInterval(function() {
+          if (pct < 100) {
+            pct += Math.floor(Math.random() * 5) + 3;
+            if (pct > 100) pct = 100;
+            if (bar) bar.style.width = pct + '%';
+            if (pctEl) {
+              pctEl.innerText = 'పుష్కర క్షేత్ర ప్రవేశం: ' + pct + '% • प्रवेश: ' + pct + '% • Entering: ' + pct + '%';
+            }
+          } else {
+            clearInterval(progressInterval);
+          }
+        }, 180);
+
+        if (el) {
+          setInterval(function() {
+            index = (index + 1) % messages.length;
+            el.innerText = messages[index];
+          }, 1400);
+        }
+
+        window.dismissMilanLoader = function() {
+          var loader = document.getElementById('initial-loader');
+          if (loader) {
+            loader.style.opacity = '0';
+            loader.style.pointerEvents = 'none';
+            setTimeout(function() {
+              if (loader.parentNode) loader.parentNode.removeChild(loader);
+            }, 850);
+          }
+        };
+      })();
+    </script>
+
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
