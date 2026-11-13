@@ -2,7 +2,9 @@
 <html lang="te" dir="ltr">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/diya-favicon.svg" />
+    <link rel="icon" type="image/png" href="/images/diya.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/images/diya.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
     <meta name="theme-color" content="#1F2A5C" />
     <meta name="description" content="Godavari Milan (గోదావరి మిలన్ / गोदावरी मिलन) - The sacred lost person identification, family safety, and reunification portal for Godavari Pushkaralu 2027 in Rajamahendravaram. RTIH Innovation Challenge Track PS-03." />
@@ -197,52 +199,11 @@
         <span style="font-size: 0.75rem; color: #186B73; font-sans font-medium;">"O Holy Godavari, Ganga & Sacred Waters — Bless our pilgrims with safety and peace."</span>
       </div>
 
-      <div class="loader-central-art">
-        <svg viewBox="0 0 190 155" width="190" height="155" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Background Temple Gopuram Spire Silhouette -->
-          <path d="M 82 110 L 86 50 L 90 50 L 92 30 L 98 30 L 100 50 L 104 50 L 108 110 Z" fill="#D9A21B" opacity="0.18"/>
-          <circle cx="95" cy="24" r="3.5" fill="#D9A21B" opacity="0.4"/>
-          <line x1="95" y1="20" x2="95" y2="15" stroke="#D9A21B" stroke-width="1.5" opacity="0.4"/>
-
-          <!-- Sacred River Godavari Ripples -->
-          <g class="wave-path">
-            <path d="M 0 128 Q 28 120 56 128 T 112 128 T 168 128 T 224 128" stroke="#186B73" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
-            <path d="M 0 140 Q 32 132 64 140 T 128 140 T 192 140" stroke="#186B73" stroke-width="3.5" stroke-linecap="round" opacity="0.9"/>
-          </g>
-
-          <!-- Floating Sacred Brass & Earthen Pancha Diya Base -->
-          <ellipse cx="95" cy="112" rx="65" ry="17" fill="#7A4B2A" stroke="#C8691A" stroke-width="2.5"/>
-          <ellipse cx="95" cy="110" rx="56" ry="12" fill="#D9A21B" opacity="0.7"/>
-          <ellipse cx="95" cy="108" rx="46" ry="8" fill="#F4E9D4" opacity="0.5"/>
-
-          <!-- Golden Flame Aura -->
-          <circle cx="95" cy="72" r="42" fill="url(#goldAura)" class="flame-aura"/>
-
-          <!-- Sacred Golden Flame -->
-          <g class="flame-core">
-            <!-- Outer Vermilion Kesari Petal -->
-            <path d="M 95 28 C 110 50, 120 66, 107 80 C 100 86, 90 86, 83 80 C 70 66, 80 50, 95 28 Z" fill="#C8691A"/>
-            <!-- Inner Turmeric Gold Core -->
-            <path d="M 95 38 C 104 54, 111 64, 103 75 C 99 79, 91 79, 87 75 C 79 64, 86 54, 95 38 Z" fill="#D9A21B"/>
-            <!-- Pure White Divine Spark -->
-            <ellipse cx="95" cy="68" rx="4" ry="8" fill="#FFFDF8"/>
-          </g>
-
-          <!-- Subtle Temple Bell at Top -->
-          <g class="temple-bell">
-            <path d="M 95 0 L 95 10" stroke="#7A4B2A" stroke-width="2"/>
-            <path d="M 89 10 C 89 17, 101 17, 101 10 Z" fill="#D9A21B" stroke="#C8691A" stroke-width="0.8"/>
-            <circle cx="95" cy="17" r="1.5" fill="#7A4B2A"/>
-          </g>
-
-          <defs>
-            <radialGradient id="goldAura" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#D9A21B" stop-opacity="0.5"/>
-              <stop offset="60%" stop-color="#C8691A" stop-opacity="0.2"/>
-              <stop offset="100%" stop-color="#C8691A" stop-opacity="0"/>
-            </radialGradient>
-          </defs>
-        </svg>
+      <div class="loader-central-art" style="display: flex; align-items: center; justify-content: center; position: relative;">
+        <!-- Background golden halo pulse -->
+        <div style="position: absolute; width: 140px; height: 140px; border-radius: 50%; background: radial-gradient(circle, rgba(217, 162, 27, 0.45) 0%, rgba(200, 105, 26, 0.2) 55%, transparent 75%); filter: blur(10px); animation: auraPulse 2.4s ease-in-out infinite alternate;"></div>
+        <!-- Real Transparent Diya Logo from diya.jpg -->
+        <img src="/images/diya.png" alt="Godavari Sacred Diya" style="position: relative; z-index: 2; width: 135px; height: 130px; object-fit: contain; filter: drop-shadow(0 0 18px rgba(217, 162, 27, 0.85)); animation: flameFlicker 2s ease-in-out infinite alternate;" />
       </div>
 
       <!-- Rotating Trilingual Spiritual & Safety Message -->
@@ -286,10 +247,10 @@
         var pctEl = document.getElementById('loader-pct-text');
         var pct = 15;
 
-        // Smooth percentage timer over ~4.2 seconds
+        // Smooth percentage timer over ~2.4 seconds with auto-dismiss at 100%
         var progressInterval = setInterval(function() {
           if (pct < 100) {
-            pct += Math.floor(Math.random() * 5) + 3;
+            pct += Math.floor(Math.random() * 6) + 4;
             if (pct > 100) pct = 100;
             if (bar) bar.style.width = pct + '%';
             if (pctEl) {
@@ -297,8 +258,13 @@
             }
           } else {
             clearInterval(progressInterval);
+            setTimeout(function() {
+              if (typeof window.dismissMilanLoader === 'function') {
+                window.dismissMilanLoader();
+              }
+            }, 300);
           }
-        }, 180);
+        }, 110);
 
         if (el) {
           setInterval(function() {

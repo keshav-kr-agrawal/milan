@@ -88,78 +88,125 @@
 }
 
 /* ==========================================================================
-   Dark Mode: Deep Indigo Night (#10142B)
-   Warm dawn softens to sacred temple night on the riverbank with golden lamps.
+   Dark Mode: Eye-Comfort Midnight Temple Night (సంధ్యా దర్శనం / Sandhya Darshanam)
+   Curated eye-comfort palette: rich midnight indigo slate, glowing sacred gold & saffron lamps.
+   WCAG AAA compliant text contrast (>=7:1) with zero harsh glare.
    ========================================================================== */
 .dark {
-  --color-kesari: #E58230;
-  --color-kesari-hover: #F29342;
-  --color-kesari-light: #3D2210;
+  --color-kesari: #FB923C;         /* Warm glowing saffron flame */
+  --color-kesari-hover: #F97316;
+  --color-kesari-light: #2D1808;
 
-  --color-haldi: #E8B93F;
-  --color-haldi-light: #3A2F0D;
-  --color-gold: #F0C45D;
+  --color-haldi: #FCD34D;          /* Soft luminous turmeric gold */
+  --color-haldi-light: #2D2309;
+  --color-gold: #FDE047;
 
-  --color-kumkum: #DE4C43;
-  --color-kumkum-light: #4A1613;
+  --color-kumkum: #DC2626;         /* High-contrast sacred vermilion red for alert buttons */
+  --color-kumkum-light: #2A0E0C;
 
-  --color-neel: #2F3D82;
-  --color-neel-deep: #0B0F21;
-  --color-neel-surface: #1E2754;
+  --color-neel: #0D1630;           /* Deep sacred midnight indigo for headers and dark surfaces */
+  --color-neel-deep: #070B16;      /* Deepest midnight slate */
+  --color-neel-surface: #1E2D4A;   /* Night surface container */
 
-  --color-godavari: #2AA3AF;
-  --color-godavari-light: #12373C;
-  --color-godavari-tint: #18484E;
+  --color-godavari: #38BDF8;       /* Luminous river cyan */
+  --color-godavari-light: #0C2836;
+  --color-godavari-tint: #164E63;
 
-  --color-tulsi: #599453;
-  --color-tulsi-light: #173015;
+  --color-tulsi: #34D399;          /* Luminous holy basil emerald */
+  --color-tulsi-light: #0B291A;
 
-  --color-chandan: #181C38;
-  --color-chandan-card: #141730;
-  --color-chandan-border: #2C335C;
+  --color-chandan: #121A2D;        /* Night Sandalwood Card Surface */
+  --color-chandan-card: #18243E;   /* Elevated Card Surface */
+  --color-chandan-border: #243552; /* Calm, visible dark border */
 
-  --color-mitti: #A86F47;
-  --color-mitti-light: #382417;
+  --color-mitti: #FBBF24;          /* Warm golden amber accent */
+  --color-mitti-light: #2A1D0E;
 
-  --color-ink: #F2ECE1;
-  --color-ink-muted: #B8B5CB;
-  --color-ink-subtle: #8986A6;
+  --color-ink: #F8FAFC;            /* Pure readable off-white text */
+  --color-ink-muted: #CBD5E1;      /* Eye-comfort readable slate-300 */
+  --color-ink-subtle: #94A3B8;     /* Secondary details slate-400 */
 
-  --bg-page: #0D1024;              /* Deep Holy Indigo Night */
-  --bg-card: #151936;              /* Night Card */
-  --bg-card-elevated: #1B2044;     /* Elevated Night Card */
-  --bg-header: #080B1C;            /* Darkest Temple Header */
-  --border-subtle: #2C335C;
-  --border-strong: #424D85;
+  --bg-page: #0B1120;              /* Eye-comfort deep midnight river slate */
+  --bg-card: #121A2D;              /* Soothing midnight card surface */
+  --bg-card-elevated: #18243E;     /* Elevated dialog / dropdown surface */
+  --bg-header: #070B16;            /* Midnight header */
+  --border-subtle: #243552;        /* Defined structure without harshness */
+  --border-strong: #3B527B;        /* Highlighted border */
 }
 
 /* ==========================================================================
    Simple Mode (Elder 60+ Persona / పెద్దల సులభ దర్శన మోడ్)
-   Massive type (>=22px base), ultra-high contrast AAA, unambiguous large buttons.
+   Massive type (>=20px base), ultra-high contrast AAA, unambiguous large buttons.
    ========================================================================== */
+:root {
+  --text-scale: 1;
+}
+
+html.simple-mode,
 body.simple-mode {
-  --text-scale: 1.35;
-  --font-size-base: 1.35rem;       /* 22px minimum base */
+  --text-scale: 1.25;
+  --font-size-base: 1.25rem;
   --line-height-normal: 1.85;
-  --min-touch-target: 60px;
-  --border-subtle: #A39074;
-  --border-strong: #594833;
+  --min-touch-target: 52px;
+  --border-subtle: #78350f;
+  --border-strong: #451a03;
+}
+
+/* Elder Mode High-Contrast Typography & Accessibility AAA */
+body.simple-mode {
+  color: #0f172a !important;
+}
+
+body.simple-mode p,
+body.simple-mode span,
+body.simple-mode label {
+  font-weight: 500;
+}
+
+body.simple-mode .text-ink-muted,
+body.simple-mode .text-slate-500,
+body.simple-mode .text-gray-500 {
+  color: #1e293b !important;
+  font-weight: 600 !important;
+}
+
+body.simple-mode h1,
+body.simple-mode h2,
+body.simple-mode h3,
+body.simple-mode h4,
+body.simple-mode h5 {
+  font-weight: 800 !important;
+  color: #0a1128 !important;
+  letter-spacing: -0.01em;
 }
 
 body.simple-mode button, 
 body.simple-mode input, 
-body.simple-mode select {
-  font-size: 1.15rem !important;
+body.simple-mode select,
+body.simple-mode a[role="button"] {
+  min-height: 50px !important;
   font-weight: 700 !important;
+  border-width: 2px !important;
+}
+
+body.simple-mode button:focus-visible, 
+body.simple-mode input:focus-visible, 
+body.simple-mode select:focus-visible {
+  outline: 4px solid #d97706 !important;
+  outline-offset: 2px !important;
+}
+
+body.simple-mode svg {
+  stroke-width: 2.25px !important;
 }
 
 /* ==========================================================================
    Text Size Controls
    ========================================================================== */
-body.text-size-sm { --text-scale: 0.9; }
-body.text-size-base { --text-scale: 1.0; }
-body.text-size-lg { --text-scale: 1.2; }
-body.text-size-xl { --text-scale: 1.4; }
+html.text-size-sm, body.text-size-sm { --text-scale: 0.9; }
+html.text-size-base, body.text-size-base { --text-scale: 1.0; }
+html.text-size-lg, body.text-size-lg { --text-scale: 1.2; }
+html.text-size-xl, body.text-size-xl { --text-scale: 1.35; }
 
 /* ==========================================================================
    Cultural Motif Utilities

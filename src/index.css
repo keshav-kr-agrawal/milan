@@ -6,12 +6,18 @@
 
 @layer base {
   html {
+    font-size: calc(16px * var(--text-scale, 1));
     font-family: var(--font-sans);
     line-height: var(--line-height-normal);
     color: var(--color-ink);
     background-color: var(--bg-page);
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
+  }
+
+  /* Universal smooth scroll behavior */
+  *, *::before, *::after {
+    scroll-behavior: smooth;
   }
 
   body {
@@ -31,7 +37,7 @@
   }
 
   .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
-    color: var(--color-ink);
+    color: #F8FAFC !important;
   }
 
   /* Universal accessible focus outline */
@@ -46,16 +52,366 @@
   }
 }
 
-/* Printable layout styling */
+/* ==========================================================================
+   SACRED EYE-COMFORT DARK THEME (Sandhya Darshanam / సంధ్యా దర్శనం)
+   Transforms all surfaces, cards, typography and form elements to rich midnight
+   indigo slate with glowing sacred amber highlights. Zero glare, perfect readability.
+   ========================================================================== */
+.dark body {
+  background-color: var(--bg-page) !important;
+  color: var(--color-ink) !important;
+}
+
+/* Card & Section Surfaces in Dark Mode */
+.dark .bg-white,
+.dark .bg-chandan-card,
+.dark .bg-amber-50,
+.dark .bg-amber-50\/60,
+.dark .bg-amber-50\/40,
+.dark .bg-\[\#FFFDF8\],
+.dark .bg-\[\#FFF9EC\],
+.dark .bg-\[\#FFF9EE\],
+.dark .bg-\[\#FFF4E5\],
+.dark .bg-\[\#fcf9f2\] {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border-subtle) !important;
+}
+
+.dark .bg-chandan,
+.dark .bg-chandan\/20,
+.dark .bg-chandan\/30,
+.dark .bg-chandan\/40,
+.dark .bg-chandan\/60,
+.dark .bg-chandan\/70 {
+  background-color: var(--bg-card-elevated) !important;
+  border-color: var(--border-subtle) !important;
+}
+
+.dark .kalamkari-frame {
+  background: var(--bg-card) !important;
+  border-color: rgba(251, 191, 36, 0.45) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(251, 191, 36, 0.1) !important;
+}
+
+/* Primary Headings & Bold Text Legibility in Dark Mode */
+.dark .text-neel,
+.dark .text-\[\#0c1328\],
+.dark .text-\[\#0C1328\],
+.dark .text-\[\#0c0f24\],
+.dark .text-\[\#0C0F24\],
+.dark .text-ink-deep,
+.dark .text-slate-900,
+.dark .text-gray-900,
+.dark .text-zinc-900 {
+  color: #F8FAFC !important;
+}
+
+/* Secondary Text & Paragraphs (Eye-comfort readable slate-300) */
+.dark .text-\[\#1e293b\],
+.dark .text-\[\#1E293B\],
+.dark .text-\[\#334155\],
+.dark .text-slate-800,
+.dark .text-slate-700,
+.dark .text-gray-800,
+.dark .text-gray-700,
+.dark .text-zinc-800,
+.dark .text-zinc-700 {
+  color: #CBD5E1 !important;
+}
+
+/* Solid Yellow / Gold / Amber buttons, badges & tags MUST ALWAYS retain deep midnight navy text for WCAG AAA contrast */
+.dark .bg-haldi,
+.dark .bg-yellow-400,
+.dark .bg-amber-300,
+.dark .bg-amber-400,
+.dark button.bg-haldi,
+.dark a.bg-haldi {
+  color: #0A1128 !important;
+}
+.dark .bg-haldi *,
+.dark .bg-yellow-400 *,
+.dark .bg-amber-300 *,
+.dark .bg-amber-400 *,
+.dark button.bg-haldi *,
+.dark a.bg-haldi * {
+  color: #0A1128 !important;
+}
+
+/* Translucent Haldi Badges / Pills on dark surfaces stay bright gold */
+.dark .bg-haldi\/10,
+.dark .bg-haldi\/20,
+.dark .bg-haldi\/30,
+.dark .bg-haldi\/40 {
+  color: #FCD34D !important;
+}
+.dark .bg-haldi\/10 *,
+.dark .bg-haldi\/20 *,
+.dark .bg-haldi\/30 *,
+.dark .bg-haldi\/40 * {
+  color: #FCD34D !important;
+}
+
+/* Sacred Kumkum Vermilion Buttons in Dark Mode: deep crimson with pure white text */
+.dark .bg-kumkum,
+.dark button.bg-kumkum,
+.dark a.bg-kumkum,
+.dark #nav-btn-sticky-help {
+  background-color: #B91C1C !important;
+  color: #FFFFFF !important;
+}
+.dark .bg-kumkum *,
+.dark button.bg-kumkum *,
+.dark a.bg-kumkum *,
+.dark #nav-btn-sticky-help * {
+  color: #FFFFFF !important;
+}
+
+/* Emergency SOS dialer buttons on red backgrounds stay crisp white with red text */
+.dark a.emergency-sos-white,
+.dark .emergency-sos-btn,
+.dark section.bg-gradient-to-r a[href^="tel:"].bg-white {
+  background-color: #FFFFFF !important;
+  color: #A3261E !important;
+  border-color: #FCA5A5 !important;
+}
+
+/* Sacred Amber & Turmeric Highlights in Dark Mode */
+.dark .text-\[\#4A2411\],
+.dark .text-\[\#4a2411\],
+.dark .text-\[\#5c2b09\],
+.dark .text-\[\#5C2B09\],
+.dark .text-\[\#451e06\],
+.dark .text-\[\#451E06\],
+.dark .text-\[\#78350f\],
+.dark .text-\[\#78350F\],
+.dark .text-\[\#7A3609\],
+.dark .text-\[\#7a3609\],
+.dark .text-amber-900,
+.dark .text-amber-950 {
+  color: #FCD34D !important;
+}
+
+/* Sacred Holy Tulsi Emerald in Dark Mode */
+.dark .text-\[\#064e3b\],
+.dark .text-\[\#064E3B\],
+.dark .text-\[\#065f46\],
+.dark .text-\[\#065F46\],
+.dark .text-emerald-900,
+.dark .text-emerald-950 {
+  color: #6EE7B7 !important;
+}
+
+/* Sacred Kumkum Vermilion in Dark Mode */
+.dark .text-kumkum,
+.dark .text-\[\#881912\],
+.dark .text-\[\#9a3412\],
+.dark .text-\[\#9A3412\],
+.dark .text-red-900,
+.dark .text-rose-900 {
+  color: #FCA5A5 !important;
+}
+
+/* Sacred River Cyan in Dark Mode */
+.dark .text-\[\#0c2a5e\],
+.dark .text-\[\#0C2A5E\],
+.dark .text-blue-900,
+.dark .text-blue-950 {
+  color: #93C5FD !important;
+}
+
+/* Sandalwood Chandan Text Fallback */
+.dark .text-chandan {
+  color: #F8FAFC !important;
+}
+
+.dark .text-ink-muted {
+  color: #CBD5E1 !important;
+}
+
+/* Physical Paper Wristband & ID Card Isolation (keeps authentic paper look) */
+.dark #printable-sheet {
+  background-color: transparent !important;
+}
+.dark #printable-sheet .bg-gradient-to-r,
+.dark #printable-sheet .bg-gradient-to-b,
+.dark #printable-sheet .bg-white,
+.dark #printable-sheet .bg-amber-50,
+.dark #printable-sheet .bg-amber-100 {
+  background-color: #FFFDF8 !important;
+  color: #0c1328 !important;
+  border-color: #f59e0b !important;
+}
+.dark #printable-sheet .text-neel,
+.dark #printable-sheet .text-\[\#0c1328\],
+.dark #printable-sheet .text-\[\#0C1328\],
+.dark #printable-sheet .text-\[\#1e293b\],
+.dark #printable-sheet .text-\[\#1E293B\],
+.dark #printable-sheet .text-\[\#334155\],
+.dark #printable-sheet .text-slate-900 {
+  color: #0c1328 !important;
+}
+.dark #printable-sheet .text-ink-muted {
+  color: #475569 !important;
+}
+
+/* Badges, Pills & Status Tags in Dark Mode */
+.dark .bg-emerald-50,
+.dark .bg-tulsi-light {
+  background-color: rgba(5, 150, 105, 0.22) !important;
+  color: #6EE7B7 !important;
+  border-color: rgba(52, 211, 153, 0.4) !important;
+}
+
+.dark .bg-rose-50,
+.dark .bg-kumkum-light {
+  background-color: rgba(220, 38, 38, 0.22) !important;
+  color: #FCA5A5 !important;
+  border-color: rgba(248, 113, 113, 0.4) !important;
+}
+
+.dark .bg-blue-50,
+.dark .bg-godavari-light {
+  background-color: rgba(37, 99, 235, 0.22) !important;
+  color: #93C5FD !important;
+  border-color: rgba(96, 165, 250, 0.4) !important;
+}
+
+.dark .bg-amber-100,
+.dark .bg-haldi-light {
+  background-color: rgba(217, 119, 6, 0.22) !important;
+  color: #FCD34D !important;
+  border-color: rgba(251, 191, 36, 0.4) !important;
+}
+.dark .bg-amber-100 *,
+.dark .bg-haldi-light * {
+  color: #FCD34D !important;
+}
+
+.dark .bg-kesari-light {
+  background-color: rgba(249, 115, 22, 0.22) !important;
+  color: #FDBA74 !important;
+  border-color: rgba(251, 146, 60, 0.4) !important;
+}
+
+/* Form Inputs & Interactive Controls in Dark Mode */
+.dark input:not([type="checkbox"]):not([type="radio"]),
+.dark select,
+.dark textarea {
+  background-color: #0F172A !important;
+  color: #F8FAFC !important;
+  border-color: #283B5E !important;
+}
+
+.dark select option {
+  background-color: #0F172A !important;
+  color: #F8FAFC !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #64748B !important;
+}
+
+.dark input:focus,
+.dark select:focus,
+.dark textarea:focus {
+  border-color: #F59E0B !important;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.25) !important;
+}
+
+/* Modals and Dialog Backdrops in Dark Mode */
+.dark .bg-neel\/80,
+.dark .bg-neel\/85 {
+  background-color: rgba(7, 11, 22, 0.90) !important;
+}
+
+/* Background image subtle night-mode comfort filter (keeps background visible, preserves text contrast) */
+.dark .mix-blend-multiply {
+  mix-blend-mode: normal !important;
+  opacity: 0.18 !important;
+}
+
+/* Luxurious Smooth Sacred Scrollbars for Webkit browsers */
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #d97706 0%, #b45309 100%);
+  border-radius: 9999px;
+  border: 2px solid #0f172a;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #f59e0b 0%, #d97706 100%);
+}
+
+/* Firefox scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #d97706 #0f172a;
+}
+
+/* Printable layout styling - ZERO PAPER WASTE A4 OPTIMIZATION */
 @media print {
+  @page {
+    size: A4 portrait;
+    margin: 6mm;
+  }
+
   body {
     background: #ffffff !important;
     color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
-  .no-print {
+
+  /* Hide app navigation, header, footer, background elements and modal chrome during printing */
+  .no-print,
+  header,
+  footer,
+  #initial-loader,
+  .status-strip,
+  button,
+  .sticky-help-trigger,
+  .modal-backdrop,
+  nav {
     display: none !important;
   }
+
+  /* Show only the targeted print element */
   .print-only {
+    position: static !important;
     display: block !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  #printable-sheet {
+    position: static !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .page-break-inside-avoid {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
   }
 }
+
+

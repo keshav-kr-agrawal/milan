@@ -10,6 +10,7 @@
     "check:i18n": "node scripts/check-i18n-parity.cjs"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.119.0",
     "canvas-confetti": "^1.9.4",
     "dexie": "^4.0.11",
     "dexie-react-hooks": "^1.1.7",

@@ -23,6 +23,7 @@ import {
   Bell,
   Globe,
   Sparkles,
+  MapPin,
 } from 'lucide-react';
 
 interface HeaderProps {
@@ -53,12 +54,25 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onSelectTab, onOpenS
 
   useEffect(() => {
     if (simpleMode) {
+      document.documentElement.classList.add('simple-mode');
       document.body.classList.add('simple-mode');
     } else {
+      document.documentElement.classList.remove('simple-mode');
       document.body.classList.remove('simple-mode');
     }
     localStorage.setItem('milan_simple_mode', String(simpleMode));
+    window.dispatchEvent(new CustomEvent('milan:elder-mode-toggle', { detail: { enabled: simpleMode } }));
   }, [simpleMode]);
+
+  useEffect(() => {
+    const handleExternalToggle = (e: any) => {
+      if (e.detail && typeof e.detail.enabled === 'boolean') {
+        setSimpleMode(e.detail.enabled);
+      }
+    };
+    window.addEventListener('milan:elder-mode-sync', handleExternalToggle);
+    return () => window.removeEventListener('milan:elder-mode-sync', handleExternalToggle);
+  }, []);
 
   useEffect(() => {
     if (darkMode) {
@@ -70,11 +84,12 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onSelectTab, onOpenS
   }, [darkMode]);
 
   useEffect(() => {
-    document.body.classList.remove('text-size-sm', 'text-size-base', 'text-size-lg', 'text-size-xl');
-    if (textSizeIndex === 0) document.body.classList.add('text-size-sm');
-    if (textSizeIndex === 1) document.body.classList.add('text-size-base');
-    if (textSizeIndex === 2) document.body.classList.add('text-size-lg');
-    if (textSizeIndex === 3) document.body.classList.add('text-size-xl');
+    const classes = ['text-size-sm', 'text-size-base', 'text-size-lg', 'text-size-xl'];
+    document.documentElement.classList.remove(...classes);
+    document.body.classList.remove(...classes);
+    const targetClass = classes[textSizeIndex] || 'text-size-base';
+    document.documentElement.classList.add(targetClass);
+    document.body.classList.add(targetClass);
     localStorage.setItem('milan_text_size', String(textSizeIndex));
   }, [textSizeIndex]);
 
@@ -121,7 +136,11 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onSelectTab, onOpenS
               ? 'गोदावरी पुष्करालु 2027 • राजमहेंद्रवरम'
               : 'Godavari Pushkaralu 2027 • Rajamahendravaram'}
           </span>
-          <span className="hidden xl:inline text-chandan-border/80 text-[11px]">| 26 June – 7 July 2027</span>
+          <span className="hidden xl:inline text-amber-200/90 font-medium text-[11px]">| 26 June – 7 July 2027</span>
+          <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-bold text-tulsi bg-[#0C1026] px-2 py-0.5 rounded-lg border border-tulsi/40">
+            <span className="w-1.5 h-1.5 rounded-full bg-tulsi animate-ping" />
+            <span>⚡ Real-Time DB</span>
+          </span>
         </div>
 
         {/* PROMINENT HIGH-VISIBILITY LANGUAGE SWITCHER & ACCESSIBILITY CONTROLS */}
@@ -133,7 +152,7 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onSelectTab, onOpenS
               className={`px-3 py-1 rounded-xl text-xs font-bold transition-all ${
                 i18n.language === 'te'
                   ? 'bg-kesari text-white shadow-md ring-1 ring-haldi font-extrabold scale-105'
-                  : 'text-chandan-border hover:text-white hover:bg-white/10'
+                  : 'text-slate-200 hover:text-white hover:bg-white/10'
               }`}
               title="తెలుగు భాషను ఎంచుకోండి"
               aria-label="Switch to Telugu"
@@ -145,7 +164,7 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onSelectTab, onOpenS
               className={`px-3 py-1 rounded-xl text-xs font-bold transition-all ${
                 i18n.language === 'hi'
                   ? 'bg-kesari text-white shadow-md ring-1 ring-haldi font-extrabold scale-105'
-                  : 'text-chandan-border hover:text-white hover:bg-white/10'
+                  : 'text-slate-200 hover:text-white hover:bg-white/10'
               }`}
               title="हिन्दी भाषा चुनें"
               aria-label="Switch to Hindi"
@@ -157,7 +176,7 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onSelectTab, onOpenS
               className={`px-3 py-1 rounded-xl text-xs font-bold transition-all ${
                 i18n.language === 'en'
                   ? 'bg-kesari text-white shadow-md ring-1 ring-haldi font-extrabold scale-105'
-                  : 'text-chandan-border hover:text-white hover:bg-white/10'
+                  : 'text-slate-200 hover:text-white hover:bg-white/10'
               }`}
               title="Switch to English"
               aria-label="Switch to English"
@@ -212,8 +231,8 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onSelectTab, onOpenS
             onClick={() => setSimpleMode(!simpleMode)}
             className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs transition-all ${
               simpleMode
-                ? 'bg-haldi text-neel font-bold shadow-md ring-2 ring-kesari'
-                : 'bg-neel-surface/90 hover:bg-neel-surface text-chandan border border-chandan-border/40'
+                ? 'bg-haldi !text-[#0A1128] font-black shadow-md ring-2 ring-kesari'
+                : 'bg-neel-surface/90 hover:bg-neel-surface text-slate-100 hover:text-white border border-slate-600/40'
             }`}
             title="పెద్దల సులభ దర్శన మోడ్ / वरिष्ठ नागरिक सरल मोड / Elder Easy Mode"
             aria-pressed={simpleMode}
@@ -258,11 +277,15 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onSelectTab, onOpenS
           tabIndex={0}
           onKeyDown={(e) => e.key === 'Enter' && onSelectTab('home')}
         >
-          <div className="p-2 sm:p-2.5 bg-chandan rounded-2xl border-2 border-haldi shadow-sm group-hover:scale-105 transition-transform flex items-center justify-center">
-            <DiyaIcon size={28} />
+          <div className="p-1.5 sm:p-2 bg-[#FFF9EE] dark:bg-[#1E2D4A] rounded-2xl border-2 border-haldi shadow-sm group-hover:scale-105 transition-transform flex items-center justify-center">
+            <img
+              src="/images/diya.png"
+              alt="Godavari Milan Diya Logo"
+              className="w-8 h-8 sm:w-9 sm:h-9 object-contain drop-shadow-md"
+            />
           </div>
           <div>
-            <div className="font-serif text-lg sm:text-2xl font-bold tracking-wide text-chandan group-hover:text-haldi transition-colors leading-tight">
+            <div className="font-serif text-lg sm:text-2xl font-bold tracking-wide text-white group-hover:text-haldi transition-colors leading-tight">
               {i18n.language === 'te' ? 'గోదావరి మిలన్' : i18n.language === 'hi' ? 'गोदावरी मिलन' : 'Godavari Milan'}
             </div>
             <div className="text-[11px] sm:text-xs text-haldi font-medium tracking-wide">
@@ -274,9 +297,10 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onSelectTab, onOpenS
         {/* Desktop Nav Links: Single Clean Language at a time */}
         <nav className="hidden lg:flex items-center gap-1 xl:gap-1.5 text-xs font-bold">
           <button
+            id="nav-btn-home"
             onClick={() => onSelectTab('home')}
             className={`px-3 py-2 rounded-xl flex items-center gap-1.5 transition-all ${
-              currentTab === 'home' ? 'bg-kesari text-white shadow-md' : 'text-chandan hover:bg-neel-surface'
+              currentTab === 'home' ? 'bg-kesari text-white shadow-md' : 'text-slate-100 hover:text-white hover:bg-white/10'
             }`}
           >
             <HomeIcon size={14} />
@@ -284,9 +308,10 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onSelectTab, onOpenS
           </button>
 
           <button
+            id="nav-btn-family"
             onClick={() => onSelectTab('family')}
             className={`px-3 py-2 rounded-xl flex items-center gap-1.5 transition-all ${
-              currentTab === 'family' ? 'bg-kesari text-white shadow-md' : 'text-chandan hover:bg-neel-surface'
+              currentTab === 'family' ? 'bg-kesari text-white shadow-md' : 'text-slate-100 hover:text-white hover:bg-white/10'
             }`}
           >
             <UserCheck size={14} />
@@ -294,9 +319,10 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onSelectTab, onOpenS
           </button>
 
           <button
+            id="nav-btn-missing"
             onClick={() => onSelectTab('missing')}
             className={`px-3 py-2 rounded-xl flex items-center gap-1.5 transition-all ${
-              currentTab === 'missing' ? 'bg-kumkum text-white shadow-urgent' : 'text-chandan hover:bg-neel-surface'
+              currentTab === 'missing' ? 'bg-kumkum text-white shadow-urgent' : 'text-slate-100 hover:text-white hover:bg-white/10'
             }`}
           >
             <AlertTriangle size={14} />
@@ -304,9 +330,10 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onSelectTab, onOpenS
           </button>
 
           <button
+            id="nav-btn-found"
             onClick={() => onSelectTab('found')}
             className={`px-3 py-2 rounded-xl flex items-center gap-1.5 transition-all ${
-              currentTab === 'found' ? 'bg-godavari text-white shadow-md' : 'text-chandan hover:bg-neel-surface'
+              currentTab === 'found' ? 'bg-godavari text-white shadow-md' : 'text-slate-100 hover:text-white hover:bg-white/10'
             }`}
           >
             <HelpCircle size={14} />
@@ -314,9 +341,10 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onSelectTab, onOpenS
           </button>
 
           <button
+            id="nav-btn-lookup"
             onClick={() => onSelectTab('lookup')}
             className={`px-3 py-2 rounded-xl flex items-center gap-1.5 transition-all ${
-              currentTab === 'lookup' ? 'bg-kesari text-white shadow-md' : 'text-chandan hover:bg-neel-surface'
+              currentTab === 'lookup' ? 'bg-kesari text-white shadow-md' : 'text-slate-100 hover:text-white hover:bg-white/10'
             }`}
           >
             <Search size={14} />
@@ -324,9 +352,10 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onSelectTab, onOpenS
           </button>
 
           <button
+            id="nav-btn-helpdesk"
             onClick={() => onSelectTab('helpdesk')}
             className={`px-3 py-2 rounded-xl flex items-center gap-1.5 transition-all ${
-              currentTab === 'helpdesk' ? 'bg-haldi text-neel font-bold shadow-md' : 'text-chandan hover:bg-neel-surface'
+              currentTab === 'helpdesk' ? 'bg-haldi !text-[#0A1128] font-black shadow-md' : 'text-slate-100 hover:text-white hover:bg-white/10'
             }`}
           >
             <PhoneCall size={14} />
@@ -334,41 +363,44 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onSelectTab, onOpenS
           </button>
 
           <button
-            onClick={() => onSelectTab('rituals')}
+            id="nav-btn-booths"
+            onClick={() => onSelectTab('booths')}
             className={`px-3 py-2 rounded-xl flex items-center gap-1.5 transition-all ${
-              currentTab === 'rituals' ? 'bg-kesari text-white shadow-md' : 'text-chandan hover:bg-neel-surface'
+              currentTab === 'booths' ? 'bg-kesari text-white shadow-md' : 'text-slate-100 hover:text-white hover:bg-white/10'
             }`}
           >
-            <BookOpen size={14} />
-            <span>{t('nav.rituals')}</span>
+            <MapPin size={14} />
+            <span>{t('nav.booths')}</span>
           </button>
 
           <button
-            onClick={() => onSelectTab('edge_nodes')}
+            id="nav-btn-heritage"
+            onClick={() => onSelectTab('heritage')}
             className={`px-3 py-2 rounded-xl flex items-center gap-1.5 transition-all ${
-              currentTab === 'edge_nodes' ? 'bg-kesari text-white shadow-md' : 'text-chandan hover:bg-neel-surface'
+              currentTab === 'heritage' ? 'bg-kesari text-white shadow-md' : 'text-slate-100 hover:text-white hover:bg-white/10'
             }`}
           >
-            <Wifi size={14} />
-            <span>{t('nav.edge_nodes')}</span>
+            <Sparkles size={14} />
+            <span>{t('nav.heritage')}</span>
           </button>
         </nav>
 
         {/* Action Button: Sticky Emergency CTA + Mobile Menu Hamburger */}
         <div className="flex items-center gap-2">
           <button
+            id="nav-btn-sticky-help"
             onClick={onOpenStickyHelp}
-            className="flex items-center gap-1.5 sm:gap-2 bg-kumkum hover:bg-red-700 text-white font-bold px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm shadow-urgent animate-pulse transition-transform hover:scale-105 active:scale-95 border border-haldi/60"
+            className="flex items-center gap-1.5 sm:gap-2 bg-kumkum hover:bg-red-700 !text-white font-black px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm shadow-urgent animate-pulse transition-transform hover:scale-105 active:scale-95 border border-haldi/60"
             title={t('home.sticky_help')}
           >
-            <AlertTriangle size={16} />
-            <span className="font-bold">{t('home.sticky_help')}</span>
+            <AlertTriangle size={16} className="!text-white" />
+            <span className="font-black !text-white">{t('home.sticky_help')}</span>
           </button>
 
           {/* Mobile hamburger button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 rounded-xl bg-neel-surface text-chandan hover:text-white border border-neel/60"
+            className="lg:hidden p-2 rounded-xl bg-neel-surface text-slate-100 hover:text-white border border-neel/60"
             aria-label="Toggle Navigation Menu"
           >
             {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
@@ -389,7 +421,7 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onSelectTab, onOpenS
               <button
                 onClick={() => handleLanguageChange('te')}
                 className={`px-2.5 py-1 rounded-xl text-xs font-bold ${
-                  i18n.language === 'te' ? 'bg-kesari text-white font-bold' : 'text-chandan hover:text-white'
+                  i18n.language === 'te' ? 'bg-kesari text-white font-bold' : 'text-slate-200 hover:text-white'
                 }`}
               >
                 తెలుగు
@@ -397,7 +429,7 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onSelectTab, onOpenS
               <button
                 onClick={() => handleLanguageChange('hi')}
                 className={`px-2.5 py-1 rounded-xl text-xs font-bold ${
-                  i18n.language === 'hi' ? 'bg-kesari text-white font-bold' : 'text-chandan hover:text-white'
+                  i18n.language === 'hi' ? 'bg-kesari text-white font-bold' : 'text-slate-200 hover:text-white'
                 }`}
               >
                 हिन्दी
@@ -405,7 +437,7 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onSelectTab, onOpenS
               <button
                 onClick={() => handleLanguageChange('en')}
                 className={`px-2.5 py-1 rounded-xl text-xs font-bold ${
-                  i18n.language === 'en' ? 'bg-kesari text-white font-bold' : 'text-chandan hover:text-white'
+                  i18n.language === 'en' ? 'bg-kesari text-white font-bold' : 'text-slate-200 hover:text-white'
                 }`}
               >
                 EN
@@ -415,7 +447,7 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onSelectTab, onOpenS
 
           <button
             onClick={() => { onSelectTab('home'); setMobileMenuOpen(false); }}
-            className={`w-full flex items-center gap-3 p-3 rounded-xl text-left ${currentTab === 'home' ? 'bg-kesari text-white font-bold' : 'text-chandan hover:bg-neel-surface'}`}
+            className={`w-full flex items-center gap-3 p-3 rounded-xl text-left ${currentTab === 'home' ? 'bg-kesari text-white font-bold' : 'text-slate-100 hover:text-white hover:bg-white/10'}`}
           >
             <HomeIcon size={18} />
             <span className="font-bold text-sm">{t('nav.home')}</span>
@@ -423,7 +455,7 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onSelectTab, onOpenS
 
           <button
             onClick={() => { onSelectTab('family'); setMobileMenuOpen(false); }}
-            className={`w-full flex items-center gap-3 p-3 rounded-xl text-left ${currentTab === 'family' ? 'bg-kesari text-white font-bold' : 'text-chandan hover:bg-neel-surface'}`}
+            className={`w-full flex items-center gap-3 p-3 rounded-xl text-left ${currentTab === 'family' ? 'bg-kesari text-white font-bold' : 'text-slate-100 hover:text-white hover:bg-white/10'}`}
           >
             <UserCheck size={18} />
             <span className="font-bold text-sm">{t('nav.register')}</span>
@@ -431,7 +463,7 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onSelectTab, onOpenS
 
           <button
             onClick={() => { onSelectTab('missing'); setMobileMenuOpen(false); }}
-            className={`w-full flex items-center gap-3 p-3 rounded-xl text-left ${currentTab === 'missing' ? 'bg-kumkum text-white font-bold' : 'text-chandan hover:bg-neel-surface'}`}
+            className={`w-full flex items-center gap-3 p-3 rounded-xl text-left ${currentTab === 'missing' ? 'bg-kumkum text-white font-bold' : 'text-slate-100 hover:text-white hover:bg-white/10'}`}
           >
             <AlertTriangle size={18} />
             <span className="font-bold text-sm">{t('nav.report_missing')}</span>
@@ -439,7 +471,7 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onSelectTab, onOpenS
 
           <button
             onClick={() => { onSelectTab('found'); setMobileMenuOpen(false); }}
-            className={`w-full flex items-center gap-3 p-3 rounded-xl text-left ${currentTab === 'found' ? 'bg-godavari text-white font-bold' : 'text-chandan hover:bg-neel-surface'}`}
+            className={`w-full flex items-center gap-3 p-3 rounded-xl text-left ${currentTab === 'found' ? 'bg-godavari text-white font-bold' : 'text-slate-100 hover:text-white hover:bg-white/10'}`}
           >
             <HelpCircle size={18} />
             <span className="font-bold text-sm">{t('nav.report_found')}</span>
@@ -447,7 +479,7 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onSelectTab, onOpenS
 
           <button
             onClick={() => { onSelectTab('lookup'); setMobileMenuOpen(false); }}
-            className={`w-full flex items-center gap-3 p-3 rounded-xl text-left ${currentTab === 'lookup' ? 'bg-kesari text-white font-bold' : 'text-chandan hover:bg-neel-surface'}`}
+            className={`w-full flex items-center gap-3 p-3 rounded-xl text-left ${currentTab === 'lookup' ? 'bg-kesari text-white font-bold' : 'text-slate-100 hover:text-white hover:bg-white/10'}`}
           >
             <Search size={18} />
             <span className="font-bold text-sm">{t('nav.lookup')}</span>
@@ -455,23 +487,31 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onSelectTab, onOpenS
 
           <button
             onClick={() => { onSelectTab('helpdesk'); setMobileMenuOpen(false); }}
-            className={`w-full flex items-center gap-3 p-3 rounded-xl text-left ${currentTab === 'helpdesk' ? 'bg-haldi text-neel font-bold' : 'text-chandan hover:bg-neel-surface'}`}
+            className={`w-full flex items-center gap-3 p-3 rounded-xl text-left ${currentTab === 'helpdesk' ? 'bg-haldi !text-[#0A1128] font-black' : 'text-slate-100 hover:text-white hover:bg-white/10'}`}
           >
             <PhoneCall size={18} />
             <span className="font-bold text-sm">{t('nav.helpdesk')}</span>
           </button>
 
           <button
-            onClick={() => { onSelectTab('rituals'); setMobileMenuOpen(false); }}
-            className={`w-full flex items-center gap-3 p-3 rounded-xl text-left ${currentTab === 'rituals' ? 'bg-kesari text-white font-bold' : 'text-chandan hover:bg-neel-surface'}`}
+            onClick={() => { onSelectTab('booths'); setMobileMenuOpen(false); }}
+            className={`w-full flex items-center gap-3 p-3 rounded-xl text-left ${currentTab === 'booths' ? 'bg-kesari text-white font-bold' : 'text-slate-100 hover:text-white hover:bg-white/10'}`}
           >
-            <BookOpen size={18} />
-            <span className="font-bold text-sm">{t('nav.rituals')}</span>
+            <MapPin size={18} />
+            <span className="font-bold text-sm">{t('nav.booths')}</span>
+          </button>
+
+          <button
+            onClick={() => { onSelectTab('heritage'); setMobileMenuOpen(false); }}
+            className={`w-full flex items-center gap-3 p-3 rounded-xl text-left ${currentTab === 'heritage' ? 'bg-kesari text-white font-bold' : 'text-slate-100 hover:text-white hover:bg-white/10'}`}
+          >
+            <Sparkles size={18} />
+            <span className="font-bold text-sm">{t('nav.heritage')}</span>
           </button>
 
           <button
             onClick={() => { onSelectTab('edge_nodes'); setMobileMenuOpen(false); }}
-            className={`w-full flex items-center gap-3 p-3 rounded-xl text-left ${currentTab === 'edge_nodes' ? 'bg-kesari text-white font-bold' : 'text-chandan hover:bg-neel-surface'}`}
+            className={`w-full flex items-center gap-3 p-3 rounded-xl text-left ${currentTab === 'edge_nodes' ? 'bg-kesari text-white font-bold' : 'text-slate-100 hover:text-white hover:bg-white/10'}`}
           >
             <Wifi size={18} />
             <span className="font-bold text-sm">{t('nav.edge_nodes')}</span>

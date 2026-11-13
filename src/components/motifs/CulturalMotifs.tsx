@@ -228,14 +228,14 @@ export const RakshaSutraThread: React.FC<{ className?: string }> = ({ className 
  * ShlokaBanner: Sacred River Godavari invocation shloka presented in Sanskrit, Telugu, and Hindi.
  */
 export const ShlokaBanner: React.FC<{ className?: string }> = ({ className = '' }) => (
-  <div className={`p-3 sm:p-4 rounded-2xl bg-gradient-to-r from-kesari-light via-haldi-light to-chandan border-2 border-haldi/60 text-center shadow-sm select-none ${className}`}>
-    <div className="text-xs sm:text-sm font-serif font-bold text-kumkum tracking-wide">
+  <div className={`p-3 sm:p-4 rounded-2xl bg-gradient-to-r from-kesari-light via-haldi-light to-chandan dark:from-[#141E33] dark:via-[#192640] dark:to-[#141E33] border-2 border-haldi/70 dark:border-amber-500/50 text-center shadow-sm select-none ${className}`}>
+    <div className="text-xs sm:text-sm font-serif font-black text-[#881912] dark:text-[#FEF08A] tracking-wide drop-shadow-xs">
       గంగే చ యమునే చైవ గోదావరి సరస్వతీ | నర్మదే సింధు కావేరీ జలేస్మిన్ సన్నిధిం కురు ||
     </div>
-    <div className="text-[11px] sm:text-xs font-serif text-mitti mt-0.5">
+    <div className="text-[11px] sm:text-xs font-serif font-bold text-[#4A2411] dark:text-[#FDE047] mt-0.5">
       गङ्गे च यमुने चैव गोदावरि सरस्वति | नर्मदे सिन्धु कावेरी जलेऽस्मिन् सन्निधिं कुरु ||
     </div>
-    <div className="text-[10px] text-ink-muted mt-1 uppercase tracking-widest font-sans font-semibold">
+    <div className="text-[10px] text-[#181829] dark:text-slate-300 mt-1 uppercase tracking-widest font-sans font-black">
       • PUSHKARALU MAHA SANGAMAM • RAJAMAHENDRAVARAM 2027 •
     </div>
   </div>

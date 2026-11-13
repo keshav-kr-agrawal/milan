@@ -98,6 +98,46 @@ class TempleAudioSynthesizer {
       console.warn('Aarti chime synthesis unavailable:', e);
     }
   }
+
+  /**
+   * Authentic sacred Conch Shell (శంఖ ధ్వని / शंखनाद) resonance.
+   */
+  public soundShankha(volume: number = 0.3) {
+    try {
+      const ctx = this.getContext();
+      if (!ctx) return;
+
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = 'sawtooth';
+      // Conch pitch swell from 220Hz up to 440Hz and stabilize
+      osc.frequency.setValueAtTime(220, now);
+      osc.frequency.exponentialRampToValueAtTime(440, now + 0.8);
+      osc.frequency.setValueAtTime(440, now + 2.2);
+      osc.frequency.exponentialRampToValueAtTime(330, now + 3.0);
+
+      gain.gain.setValueAtTime(0, now);
+      gain.gain.linearRampToValueAtTime(volume * 0.4, now + 0.5);
+      gain.gain.setValueAtTime(volume * 0.4, now + 2.2);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 3.2);
+
+      // Low pass filter to soften the trumpet/conch sound
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(800, now);
+
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 3.2);
+    } catch (e) {
+      console.warn('Shankha audio synthesis unavailable:', e);
+    }
+  }
 }
 
 export const templeAudio = new TempleAudioSynthesizer();

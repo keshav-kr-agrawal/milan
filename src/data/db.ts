@@ -67,7 +67,7 @@ export interface AccessLog {
   id: string;
   actor: string;
   role: 'public' | 'desk' | 'admin';
-  action: 'view_public' | 'request_consent' | 'emergency_override' | 'reunite_release' | 'print_override';
+  action: 'view_public' | 'request_consent' | 'grant_consent' | 'emergency_override' | 'reunite_release' | 'print_override';
   target: string;
   reason: string;
   at: string;
@@ -79,6 +79,38 @@ export interface PrintLog {
   kind: 'band' | 'card';
   by: string; // 'family' | officer name
   at: string;
+}
+
+export interface ContactRequest {
+  id: string; // e.g. "REQ-93821"
+  member_id: string;
+  family_id: string;
+  requester_name: string;
+  requester_phone?: string;
+  requester_booth?: string;
+  status: 'pending' | 'approved' | 'rejected';
+  created_at: string;
+  approved_at?: string;
+  expires_at: string;
+}
+
+export interface VolunteerBooth {
+  id: string; // e.g. "BOOTH-01"
+  name: string;
+  name_tel: string;
+  name_hi: string;
+  ghat: string;
+  location_detail: string;
+  location_detail_tel: string;
+  location_detail_hi: string;
+  officer_in_charge: string;
+  phone: string;
+  hotline: string;
+  services: string[];
+  crowd_level: 'low' | 'moderate' | 'peak';
+  lat: number;
+  lng: number;
+  is_active: boolean;
 }
 
 export interface HelpDesk {
@@ -97,21 +129,25 @@ export class MilanDatabase extends Dexie {
   cases!: Table<Case, string>;
   matches!: Table<Match, string>;
   consent_requests!: Table<ConsentRequest, string>;
+  contact_requests!: Table<ContactRequest, string>;
   access_log!: Table<AccessLog, string>;
   prints!: Table<PrintLog, string>;
   helpdesks!: Table<HelpDesk, string>;
+  volunteer_booths!: Table<VolunteerBooth, string>;
 
   constructor() {
     super('GodavariMilanDB');
-    this.version(1).stores({
+    this.version(2).stores({
       families: 'id, phone, language',
       members: 'id, family_id, status',
       cases: 'id, type, status, member_id, location, age_group, queued_offline',
       matches: 'id, case_a, case_b_or_member',
       consent_requests: 'id, member_id, status',
+      contact_requests: 'id, member_id, family_id, status',
       access_log: 'id, actor, role, at',
       prints: 'id, member_id, by, at',
       helpdesks: 'id, ghat',
+      volunteer_booths: 'id, ghat, crowd_level',
     });
   }
 }
@@ -129,7 +165,7 @@ export async function seedInitialData() {
 export async function populateFreshSeedData() {
   await db.transaction('rw', [
     db.families, db.members, db.cases, db.matches,
-    db.consent_requests, db.access_log, db.prints, db.helpdesks
+    db.consent_requests, db.contact_requests, db.access_log, db.prints, db.helpdesks, db.volunteer_booths
   ], async () => {
     // Clear all
     await db.families.clear();
@@ -137,18 +173,153 @@ export async function populateFreshSeedData() {
     await db.cases.clear();
     await db.matches.clear();
     await db.consent_requests.clear();
+    await db.contact_requests.clear();
     await db.access_log.clear();
     await db.prints.clear();
     await db.helpdesks.clear();
+    await db.volunteer_booths.clear();
 
-    // 1. Help Desks across Rajamahendravaram Ghats
-    const desks: HelpDesk[] = [
-      { id: 'DESK-01', name: 'Pushkar Ghat Central Desk', ghat: 'pushkar', lat: 17.0012, lng: 81.7781, officer_in_charge: 'Insp. K. Ramanayya', phone: '112-EXT-01' },
-      { id: 'DESK-02', name: 'Kotilingala Ghat North Desk', ghat: 'kotilingala', lat: 17.0045, lng: 81.7762, officer_in_charge: 'SI P. Venkatesh', phone: '112-EXT-02' },
-      { id: 'DESK-03', name: 'Gowthami Ghat Sector Desk', ghat: 'gowthami', lat: 16.9984, lng: 81.7815, officer_in_charge: 'SI M. Sunitha', phone: '112-EXT-03' },
-      { id: 'DESK-04', name: 'Saraswati Ghat West Desk', ghat: 'saraswati', lat: 17.0078, lng: 81.7741, officer_in_charge: 'HC T. Satyanarayana', phone: '112-EXT-04' },
-      { id: 'DESK-05', name: 'Markandeya Ghat Safety Post', ghat: 'markandeya', lat: 16.9950, lng: 81.7840, officer_in_charge: 'SI D. Nageswara Rao', phone: '112-EXT-05' },
+    // 1. Volunteer Booths across Rajamahendravaram Ghats & Transit Hubs
+    const booths: VolunteerBooth[] = [
+      {
+        id: 'BOOTH-01',
+        name: 'Pushkar Ghat Central Control & Safety Booth',
+        name_tel: 'పుష్కర్ ఘాట్ ప్రధాన కంట్రోల్ & భద్రతా బూత్',
+        name_hi: 'पुष्कर घाट मुख्य नियंत्रण एवं सुरक्षा बूथ',
+        ghat: 'pushkar',
+        location_detail: 'Main Riverbank Promenade, Near Grand Harathi Brass Stage',
+        location_detail_tel: 'ప్రధాన నదీ తీర వేదిక, మహా హారతి ఇత్తడి వేదిక సమీపంలో',
+        location_detail_hi: 'मुख्य नदी तट, महा आरती पीतल मंच के समीप',
+        officer_in_charge: 'Insp. K. Ramanayya (AP Police)',
+        phone: '+91 883 244 1101',
+        hotline: '112-EXT-01',
+        services: ['Child Wristband Printing', 'Rapid Reunification Desk', 'First Aid Station', 'Free Drinking Water', 'Wheelchair Support'],
+        crowd_level: 'peak',
+        lat: 17.0012,
+        lng: 81.7781,
+        is_active: true,
+      },
+      {
+        id: 'BOOTH-02',
+        name: 'Kotilingala North Pilgrim Assistance Post',
+        name_tel: 'కోటిలింగాల ఉత్తర యాత్రికుల సహాయ కేంద్రం',
+        name_hi: 'कोटिलिंगाला उत्तर तीर्थयात्री सहायता पोस्ट',
+        ghat: 'kotilingala',
+        location_detail: 'Kotilingeshwara Temple Steps, Barricade Sector 3',
+        location_detail_tel: 'కోటిలింగేశ్వర ఆలయ మెట్లు, బారికేడ్ సెక్టార్ 3',
+        location_detail_hi: 'कोटिलिंगेश्वर मंदिर सीढ़ियाँ, बैरिकेड सेक्टर 3',
+        officer_in_charge: 'SI P. Venkatesh (Rajahmundry Urban)',
+        phone: '+91 883 244 1102',
+        hotline: '112-EXT-02',
+        services: ['QR Hand Band Tagging', 'Missing Person Intake', 'River Safety Life Jackets', 'Elderly Assistance'],
+        crowd_level: 'peak',
+        lat: 17.0045,
+        lng: 81.7762,
+        is_active: true,
+      },
+      {
+        id: 'BOOTH-03',
+        name: 'Gowthami Ghat Family Care & Milk Booth',
+        name_tel: 'గౌతమి ఘాట్ కుటుంబ రక్షణ & పసిపిల్లల పాల కేంద్రం',
+        name_hi: 'गौतमी घाट परिवार सेवा एवं बाल दुग्ध केंद्र',
+        ghat: 'gowthami',
+        location_detail: 'ISKON Temple Riverfront Park Entrance',
+        location_detail_tel: 'ఇస్కాన్ ఆలయ నదీ ఉద్యానవన ప్రవేశ ద్వారం',
+        location_detail_hi: 'इस्कॉन मंदिर रिवरफ्रंट पार्क मुख्य द्वार',
+        officer_in_charge: 'SI M. Sunitha (Women Protection Cell)',
+        phone: '+91 883 244 1103',
+        hotline: '112-EXT-03',
+        services: ['Toddler Milk & Feeding Shed', 'Child QR Wristbands', 'Family Resting Camp', 'Lost & Found Coordination'],
+        crowd_level: 'moderate',
+        lat: 16.9984,
+        lng: 81.7815,
+        is_active: true,
+      },
+      {
+        id: 'BOOTH-04',
+        name: 'Saraswati Ghat Youth Volunteer Hub',
+        name_tel: 'సరస్వతి ఘాట్ యువ స్వచ్ఛంద సేవకుల కేంద్రం',
+        name_hi: 'सरस्वती घाट युवा स्वयंसेवक केंद्र',
+        ghat: 'saraswati',
+        location_detail: 'Saraswati Temple Complex & Ghat Bathing Terrace',
+        location_detail_tel: 'సరస్వతి ఆలయ ప్రాంగణం & ఘాట్ స్నాన ఘట్టం',
+        location_detail_hi: 'सरस्वती मंदिर प्रांगण एवं स्नान घाट',
+        officer_in_charge: 'HC T. Satyanarayana (NSS/NCC Lead)',
+        phone: '+91 883 244 1104',
+        hotline: '112-EXT-04',
+        services: ['Multilingual Translation', 'Lost Belongings Counter', 'Senior Citizen Escort', 'Emergency Battery Bank'],
+        crowd_level: 'low',
+        lat: 17.0078,
+        lng: 81.7741,
+        is_active: true,
+      },
+      {
+        id: 'BOOTH-05',
+        name: 'Markandeya Ghat Rapid Reunion Post',
+        name_tel: 'మార్కండేయ ఘాట్ శీఘ్ర పునఃకలయిక కేంద్రం',
+        name_hi: 'मार्कंडेय घाट त्वरित पुनर्मिलन केंद्र',
+        ghat: 'markandeya',
+        location_detail: 'Near Markandeya Swamy Temple Arch & Boat Jetty',
+        location_detail_tel: 'మార్కండేయ స్వామి ఆలయ తోరణం & పడవల జెట్టీ సమీపంలో',
+        location_detail_hi: 'मार्कंडेय स्वामी मंदिर कमान एवं बोट जेटी के समीप',
+        officer_in_charge: 'SI D. Nageswara Rao',
+        phone: '+91 883 244 1105',
+        hotline: '112-EXT-05',
+        services: ['Rapid Face Match Terminal', 'Public Address Announcements', 'Paramedic Medical Bed', 'Instant Family Calling'],
+        crowd_level: 'moderate',
+        lat: 16.9950,
+        lng: 81.7840,
+        is_active: true,
+      },
+      {
+        id: 'BOOTH-06',
+        name: 'Rajahmundry Railway Station Pilgrim Welcome Post',
+        name_tel: 'రాజమండ్రి రైల్వే స్టేషన్ యాత్రికుల స్వాగత బూత్',
+        name_hi: 'राजमंड्री रेलवे स्टेशन तीर्थयात्री स्वागत केंद्र',
+        ghat: 'station',
+        location_detail: 'Platform 1 Main Exit Concourse, East Gate',
+        location_detail_tel: 'ప్లాట్‌ఫారమ్ 1 ప్రధాన నిష్క్రమణ మార్గం, తూర్పు ద్వారం',
+        location_detail_hi: 'प्लेटफॉर्म 1 मुख्य निकास द्वार, पूर्वी गेट',
+        officer_in_charge: 'ASI Ch. Apparao (Railway Police)',
+        phone: '+91 883 244 1106',
+        hotline: '112-EXT-06',
+        services: ['Immediate Arrival Wristband Tagging', 'Free Ghat Shuttle Route Map', 'Wheelchair Support', 'Helpdesk in 5 Languages'],
+        crowd_level: 'peak',
+        lat: 17.0040,
+        lng: 81.7890,
+        is_active: true,
+      },
+      {
+        id: 'BOOTH-07',
+        name: 'RTC Central Bus Stand Transit Safety Post',
+        name_tel: 'ఆర్టీసీ సెంట్రల్ బస్ స్టాండ్ రవాణా భద్రతా బూత్',
+        name_hi: 'आरटीसी सेंट्रल बस स्टैंड पारगमन सुरक्षा केंद्र',
+        ghat: 'bus_stand',
+        location_detail: 'Bay 3 Inter-District Arrival Platform',
+        location_detail_tel: 'బే 3 జిల్లాల బస్సుల రాక ప్లాట్‌ఫారమ్',
+        location_detail_hi: 'बे 3 अंतर-जिला बस आगमन प्लेटफॉर्म',
+        officer_in_charge: 'Volunteer Lead K. Lakshmi (Red Cross)',
+        phone: '+91 883 244 1107',
+        hotline: '112-EXT-07',
+        services: ['Arrival Registration', 'Child Protection Bands', 'Luggage Tagging', 'Lost Child Holding Room'],
+        crowd_level: 'moderate',
+        lat: 16.9920,
+        lng: 81.7880,
+        is_active: true,
+      },
     ];
+    await db.volunteer_booths.bulkAdd(booths);
+
+    // Help Desks across Ghats
+    const desks: HelpDesk[] = booths.slice(0, 5).map(b => ({
+      id: b.id,
+      name: b.name,
+      ghat: b.ghat,
+      lat: b.lat,
+      lng: b.lng,
+      officer_in_charge: b.officer_in_charge,
+      phone: b.phone,
+    }));
     await db.helpdesks.bulkAdd(desks);
 
     // 2. Family 1: GM27-K7M2 (Telugu family from West Godavari)
